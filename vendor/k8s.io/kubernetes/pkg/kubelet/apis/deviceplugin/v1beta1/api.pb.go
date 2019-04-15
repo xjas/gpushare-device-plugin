@@ -389,19 +389,19 @@ func (m *DeviceSpec) GetPermissions() string {
 }
 
 func init() {
-	proto.RegisterType((*DevicePluginOptions)(nil), "v1beta1.DevicePluginOptions")
-	proto.RegisterType((*RegisterRequest)(nil), "v1beta1.RegisterRequest")
-	proto.RegisterType((*Empty)(nil), "v1beta1.Empty")
-	proto.RegisterType((*ListAndWatchResponse)(nil), "v1beta1.ListAndWatchResponse")
-	proto.RegisterType((*Device)(nil), "v1beta1.Device")
-	proto.RegisterType((*PreStartContainerRequest)(nil), "v1beta1.PreStartContainerRequest")
-	proto.RegisterType((*PreStartContainerResponse)(nil), "v1beta1.PreStartContainerResponse")
-	proto.RegisterType((*AllocateRequest)(nil), "v1beta1.AllocateRequest")
-	proto.RegisterType((*ContainerAllocateRequest)(nil), "v1beta1.ContainerAllocateRequest")
-	proto.RegisterType((*AllocateResponse)(nil), "v1beta1.AllocateResponse")
-	proto.RegisterType((*ContainerAllocateResponse)(nil), "v1beta1.ContainerAllocateResponse")
-	proto.RegisterType((*Mount)(nil), "v1beta1.Mount")
-	proto.RegisterType((*DeviceSpec)(nil), "v1beta1.DeviceSpec")
+	proto.RegisterType((*DevicePluginOptions)(nil), "deviceplugin.DevicePluginOptions")
+	proto.RegisterType((*RegisterRequest)(nil), "deviceplugin.RegisterRequest")
+	proto.RegisterType((*Empty)(nil), "deviceplugin.Empty")
+	proto.RegisterType((*ListAndWatchResponse)(nil), "deviceplugin.ListAndWatchResponse")
+	proto.RegisterType((*Device)(nil), "deviceplugin.Device")
+	proto.RegisterType((*PreStartContainerRequest)(nil), "deviceplugin.PreStartContainerRequest")
+	proto.RegisterType((*PreStartContainerResponse)(nil), "deviceplugin.PreStartContainerResponse")
+	proto.RegisterType((*AllocateRequest)(nil), "deviceplugin.AllocateRequest")
+	proto.RegisterType((*ContainerAllocateRequest)(nil), "deviceplugin.ContainerAllocateRequest")
+	proto.RegisterType((*AllocateResponse)(nil), "deviceplugin.AllocateResponse")
+	proto.RegisterType((*ContainerAllocateResponse)(nil), "deviceplugin.ContainerAllocateResponse")
+	proto.RegisterType((*Mount)(nil), "deviceplugin.Mount")
+	proto.RegisterType((*DeviceSpec)(nil), "deviceplugin.DeviceSpec")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -428,7 +428,7 @@ func NewRegistrationClient(cc *grpc.ClientConn) RegistrationClient {
 
 func (c *registrationClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := grpc.Invoke(ctx, "/v1beta1.Registration/Register", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/deviceplugin.Registration/Register", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -455,7 +455,7 @@ func _Registration_Register_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/v1beta1.Registration/Register",
+		FullMethod: "/deviceplugin.Registration/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RegistrationServer).Register(ctx, req.(*RegisterRequest))
@@ -464,7 +464,7 @@ func _Registration_Register_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 var _Registration_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "v1beta1.Registration",
+	ServiceName: "deviceplugin.Registration",
 	HandlerType: (*RegistrationServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -506,7 +506,7 @@ func NewDevicePluginClient(cc *grpc.ClientConn) DevicePluginClient {
 
 func (c *devicePluginClient) GetDevicePluginOptions(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*DevicePluginOptions, error) {
 	out := new(DevicePluginOptions)
-	err := grpc.Invoke(ctx, "/v1beta1.DevicePlugin/GetDevicePluginOptions", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/deviceplugin.DevicePlugin/GetDevicePluginOptions", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -514,7 +514,7 @@ func (c *devicePluginClient) GetDevicePluginOptions(ctx context.Context, in *Emp
 }
 
 func (c *devicePluginClient) ListAndWatch(ctx context.Context, in *Empty, opts ...grpc.CallOption) (DevicePlugin_ListAndWatchClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_DevicePlugin_serviceDesc.Streams[0], c.cc, "/v1beta1.DevicePlugin/ListAndWatch", opts...)
+	stream, err := grpc.NewClientStream(ctx, &_DevicePlugin_serviceDesc.Streams[0], c.cc, "/deviceplugin.DevicePlugin/ListAndWatch", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -547,7 +547,7 @@ func (x *devicePluginListAndWatchClient) Recv() (*ListAndWatchResponse, error) {
 
 func (c *devicePluginClient) Allocate(ctx context.Context, in *AllocateRequest, opts ...grpc.CallOption) (*AllocateResponse, error) {
 	out := new(AllocateResponse)
-	err := grpc.Invoke(ctx, "/v1beta1.DevicePlugin/Allocate", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/deviceplugin.DevicePlugin/Allocate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -556,7 +556,7 @@ func (c *devicePluginClient) Allocate(ctx context.Context, in *AllocateRequest, 
 
 func (c *devicePluginClient) PreStartContainer(ctx context.Context, in *PreStartContainerRequest, opts ...grpc.CallOption) (*PreStartContainerResponse, error) {
 	out := new(PreStartContainerResponse)
-	err := grpc.Invoke(ctx, "/v1beta1.DevicePlugin/PreStartContainer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/deviceplugin.DevicePlugin/PreStartContainer", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -597,7 +597,7 @@ func _DevicePlugin_GetDevicePluginOptions_Handler(srv interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/v1beta1.DevicePlugin/GetDevicePluginOptions",
+		FullMethod: "/deviceplugin.DevicePlugin/GetDevicePluginOptions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DevicePluginServer).GetDevicePluginOptions(ctx, req.(*Empty))
@@ -636,7 +636,7 @@ func _DevicePlugin_Allocate_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/v1beta1.DevicePlugin/Allocate",
+		FullMethod: "/deviceplugin.DevicePlugin/Allocate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DevicePluginServer).Allocate(ctx, req.(*AllocateRequest))
@@ -654,7 +654,7 @@ func _DevicePlugin_PreStartContainer_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/v1beta1.DevicePlugin/PreStartContainer",
+		FullMethod: "/deviceplugin.DevicePlugin/PreStartContainer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DevicePluginServer).PreStartContainer(ctx, req.(*PreStartContainerRequest))
@@ -663,7 +663,7 @@ func _DevicePlugin_PreStartContainer_Handler(srv interface{}, ctx context.Contex
 }
 
 var _DevicePlugin_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "v1beta1.DevicePlugin",
+	ServiceName: "deviceplugin.DevicePlugin",
 	HandlerType: (*DevicePluginServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
