@@ -12,6 +12,11 @@ const (
 	resourceCount = "aliyun.com/gpu-count"
 	serverSock    = pluginapi.DevicePluginPath + "aliyungpushare.sock"
 
+	//0.8 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
+	AvailableNvidiaMemoryRatio = 0.8
+	//used by tensorflow to control memory usage
+	GPU_MEMORY_FRACTION = "0.3"
+
 	OptimisticLockErrorMsg = "the object has been modified; please apply your changes to the latest version and try again"
 
 	allHealthChecks             = "xids"
@@ -22,6 +27,7 @@ const (
 	sandboxIDLabelKey           = "io.kubernetes.sandbox.id"
 
 	envNVGPU               = "NVIDIA_VISIBLE_DEVICES"
+	envCUDAGPU             = "CUDA_VISIBLE_DEVICES"
 	EnvResourceIndex       = "ALIYUN_COM_GPU_MEM_IDX"
 	EnvResourceByPod       = "ALIYUN_COM_GPU_MEM_POD"
 	EnvResourceByContainer = "ALIYUN_COM_GPU_MEM_CONTAINER"
