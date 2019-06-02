@@ -68,7 +68,7 @@ func getDevices() ([]*pluginapi.Device, map[string]uint) {
 		// var KiB uint64 = 1024
 		log.Infof("# device Memory: %d", uint(*d.Memory))
 		if getGPUMemory() == uint(0) {
-			setGPUMemory(uint(*d.Memory))
+			setGPUMemory(uint(float64(*d.Memory) * AvailableNvidiaMemoryRatio))
 		}
 		for j := uint(0); j < getGPUMemory(); j++ {
 			fakeID := generateFakeDeviceID(d.UUID, j)

@@ -115,10 +115,12 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 			response := pluginapi.ContainerAllocateResponse{
 				Envs: map[string]string{
 					envNVGPU:               candidateDevID,
+					envCUDAGPU:             candidateDevID,
 					EnvResourceIndex:       fmt.Sprintf("%d", id),
 					EnvResourceByPod:       fmt.Sprintf("%d", podReqGPU),
 					EnvResourceByContainer: fmt.Sprintf("%d", reqGPU),
 					EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
+					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(reqGPU)/float32(getGPUMemory())),
 				},
 			}
 			responses.ContainerResponses = append(responses.ContainerResponses, &response)
