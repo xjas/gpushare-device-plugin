@@ -2,6 +2,8 @@ package nvidia
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	log "github.com/golang/glog"
@@ -27,10 +29,12 @@ func buildErrResponse(reqs *pluginapi.AllocateRequest, podReqGPU uint) *pluginap
 		response := pluginapi.ContainerAllocateResponse{
 			Envs: map[string]string{
 				envNVGPU:               fmt.Sprintf("no-gpu-has-%dMiB-to-run", podReqGPU),
+				envCUDAGPU:             fmt.Sprintf("no-gpu-has-%dMiB-to-run", podReqGPU),
 				EnvResourceIndex:       fmt.Sprintf("-1"),
 				EnvResourceByPod:       fmt.Sprintf("%d", podReqGPU),
 				EnvResourceByContainer: fmt.Sprintf("%d", uint(len(req.DevicesIDs))),
 				EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
+				GPU_MEMORY_FRACTION:    fmt.Sprintf("%d", 0),
 			},
 		}
 		responses.ContainerResponses = append(responses.ContainerResponses, &response)
@@ -89,38 +93,45 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 
 	if found {
 		id := getGPUIDFromPodAnnotation(assumePod)
-		if id < 0 {
+		if id == "" {
 			log.Warningf("Failed to get the dev ", assumePod)
-		}
-
-		candidateDevID := ""
-		if id >= 0 {
-			ok := false
-			candidateDevID, ok = m.GetDeviceNameByIndex(uint(id))
-			if !ok {
-				log.Warningf("Failed to find the dev for pod %v because it's not able to find dev with index %d",
-					assumePod,
-					id)
-				id = -1
-			}
-		}
-
-		if id < 0 {
 			return buildErrResponse(reqs, podReqGPU), nil
 		}
 
+		devIDs := make([]string, 0)
+		if id != "" {
+			ids := strings.Split(id, ",")
+			for _, idStr := range ids {
+				id_, err := strconv.Atoi(idStr)
+				if err == nil {
+					devID, ok := m.GetDeviceNameByIndex(uint(id_))
+					if !ok {
+						log.Warningf("Failed to find the dev for pod %v because it's not able to find dev with index %d",
+							assumePod,
+							id)
+					} else {
+						// Todo: if some GPU was not available, how to deal with it? or we just discard it?
+						devIDs = append(devIDs, devID)
+					}
+				}
+			}
+		}
+
+		candidateDevIDs := strings.Join(devIDs, ",")
 		// 1. Create container requests
 		for _, req := range reqs.ContainerRequests {
 			reqGPU := uint(len(req.DevicesIDs))
 			response := pluginapi.ContainerAllocateResponse{
 				Envs: map[string]string{
-					envNVGPU:               candidateDevID,
-					envCUDAGPU:             candidateDevID,
-					EnvResourceIndex:       fmt.Sprintf("%d", id),
+					envNVGPU:               candidateDevIDs,
+					envCUDAGPU:             candidateDevIDs,
+					EnvResourceIndex:       fmt.Sprintf("%s", id),
 					EnvResourceByPod:       fmt.Sprintf("%d", podReqGPU),
+					// Todo: every container may need different envs, but for now we just assume every container consumes the same amount gpu mems.
+					// Todo: we may try to allocate different gpu mem to multi containers, because the response contains all the pods.
 					EnvResourceByContainer: fmt.Sprintf("%d", reqGPU),
 					EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
-					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(reqGPU)/float32(getGPUMemory())),
+					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(podReqGPU)/float32(getGPUMemory())),
 				},
 			}
 			responses.ContainerResponses = append(responses.ContainerResponses, &response)

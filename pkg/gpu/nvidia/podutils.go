@@ -23,30 +23,15 @@ func updatePodAnnotations(oldPod *v1.Pod) (newPod *v1.Pod) {
 	return newPod
 }
 
-func getGPUIDFromPodAnnotation(pod *v1.Pod) (id int) {
-	var err error
-	id = -1
+func getGPUIDFromPodAnnotation(pod *v1.Pod) (id string) {
 
 	if len(pod.ObjectMeta.Annotations) > 0 {
 		value, found := pod.ObjectMeta.Annotations[EnvResourceIndex]
 		if found {
-			id, err = strconv.Atoi(value)
-			if err != nil {
-				log.Warningf("Failed to parse dev id %s due to %v for pod %s in ns %s",
-					value,
-					err,
-					pod.Name,
-					pod.Namespace)
-				id = -1
-			}
-		} else {
-			log.Warningf("Failed to get dev id %s for pod %s in ns %s",
-				pod.Name,
-				pod.Namespace)
+			return value
 		}
 	}
-
-	return id
+	return ""
 }
 
 // get assumed timestamp
