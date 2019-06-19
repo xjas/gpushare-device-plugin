@@ -12,8 +12,8 @@ const (
 	resourceCount = "aliyun.com/gpu-count"
 	serverSock    = pluginapi.DevicePluginPath + "aliyungpushare.sock"
 
-	//0.8 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
-	AvailableNvidiaMemoryRatio = 0.8
+	//0.7 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
+	AvailableNvidiaMemoryRatio = 0.7
 	//used by tensorflow to control memory usage
 	GPU_MEMORY_FRACTION = "0.3"
 
