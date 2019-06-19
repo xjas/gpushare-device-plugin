@@ -106,7 +106,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 				if err == nil {
 					devID, ok := m.GetDeviceNameByIndex(uint(id_))
 					if !ok {
-						log.Warningf("Failed to find the dev for pod %v because it's not able to find dev with index %d",
+						log.Warningf("Warning: Failed to find the dev for pod %v because it's not able to find dev with index %d",
 							assumePod,
 							id)
 					} else {
@@ -131,7 +131,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 					// Todo: we may try to allocate different gpu mem to multi containers, because the response contains all the pods.
 					EnvResourceByContainer: fmt.Sprintf("%d", reqGPU),
 					EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
-					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(podReqGPU)/float32(getGPUMemory())),
+					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(podReqGPU)/float32(len(devIDs))/float32(getGPUMemory())),
 				},
 			}
 			responses.ContainerResponses = append(responses.ContainerResponses, &response)
