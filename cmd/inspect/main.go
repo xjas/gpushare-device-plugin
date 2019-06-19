@@ -9,17 +9,14 @@ import (
 )
 
 const (
-	resourceName         = "aliyun.com/gpu-mem"
-	countName            = "aliyun.com/gpu-count"
-	gpuCountKey          = "aliyun.accelerator/nvidia_count"
-	cardNameKey          = "aliyun.accelerator/nvidia_name"
-	gpuMemKey            = "aliyun.accelerator/nvidia_mem"
+	resourceName         = "transwarp.io/gpu-mem"
+	countName            = "transwarp.io/gpu-count"
 	pluginComponentKey   = "component"
 	pluginComponentValue = "gpushare-device-plugin"
 
-	envNVGPUID        = "ALIYUN_COM_GPU_MEM_IDX"
-	envPodGPUMemory   = "ALIYUN_COM_GPU_MEM_POD"
-	envTOTALGPUMEMORY = "ALIYUN_COM_GPU_MEM_DEV"
+	envNVGPUID        = "TRANSWARP_IO_GPU_MEM_IDX"
+	envPodGPUMemory   = "TRANSWARP_IO_GPU_MEM_POD"
+	envTOTALGPUMEMORY = "TRANSWARP_IO_GPU_MEM_DEV"
 )
 
 func init() {

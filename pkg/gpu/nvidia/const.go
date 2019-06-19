@@ -8,9 +8,9 @@ import (
 type MemoryUnit string
 
 const (
-	resourceName  = "aliyun.com/gpu-mem"
-	resourceCount = "aliyun.com/gpu-count"
-	serverSock    = pluginapi.DevicePluginPath + "aliyungpushare.sock"
+	resourceName  = "transwarp.io/gpu-mem"
+	resourceCount = "transwarp.io/gpu-count"
+	serverSock    = pluginapi.DevicePluginPath + "transwarp-gpu-share.sock"
 
 	//0.7 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
 	AvailableNvidiaMemoryRatio = 0.7
@@ -28,13 +28,13 @@ const (
 
 	envNVGPU               = "NVIDIA_VISIBLE_DEVICES"
 	envCUDAGPU             = "CUDA_VISIBLE_DEVICES"
-	EnvResourceIndex       = "ALIYUN_COM_GPU_MEM_IDX"
-	EnvResourceByPod       = "ALIYUN_COM_GPU_MEM_POD"
-	EnvResourceByContainer = "ALIYUN_COM_GPU_MEM_CONTAINER"
-	EnvResourceByDev       = "ALIYUN_COM_GPU_MEM_DEV"
-	EnvAssignedFlag        = "ALIYUN_COM_GPU_MEM_ASSIGNED"
-	EnvResourceAssumeTime  = "ALIYUN_COM_GPU_MEM_ASSUME_TIME"
-	EnvResourceAssignTime  = "ALIYUN_COM_GPU_MEM_ASSIGN_TIME"
+	EnvResourceIndex       = "TRANSWARP_IO_GPU_MEM_IDX"
+	EnvResourceByPod       = "TRANSWARP_IO_GPU_MEM_POD"
+	EnvResourceByContainer = "TRANSWARP_IO_GPU_MEM_CONTAINER"
+	EnvResourceByDev       = "TRANSWARP_IO_GPU_MEM_DEV"
+	EnvAssignedFlag        = "TRANSWARP_IO_GPU_MEM_ASSIGNED"
+	EnvResourceAssumeTime  = "TRANSWARP_IO_GPU_MEM_ASSUME_TIME"
+	EnvResourceAssignTime  = "TRANSWARP_IO_GPU_MEM_ASSIGN_TIME"
 
 	GiBPrefix = MemoryUnit("GiB")
 	MiBPrefix = MemoryUnit("MiB")
