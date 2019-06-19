@@ -34,7 +34,7 @@ func buildErrResponse(reqs *pluginapi.AllocateRequest, podReqGPU uint) *pluginap
 				EnvResourceByPod:       fmt.Sprintf("%d", podReqGPU),
 				EnvResourceByContainer: fmt.Sprintf("%d", uint(len(req.DevicesIDs))),
 				EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
-				GPU_MEMORY_FRACTION:    fmt.Sprintf("%d", 0),
+				envGPUMemoryFraction:   fmt.Sprintf("%d", 0),
 			},
 		}
 		responses.ContainerResponses = append(responses.ContainerResponses, &response)
@@ -131,7 +131,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 					// Todo: we may try to allocate different gpu mem to multi containers, because the response contains all the pods.
 					EnvResourceByContainer: fmt.Sprintf("%d", reqGPU),
 					EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
-					GPU_MEMORY_FRACTION:    fmt.Sprintf("%.2f", float32(podReqGPU)/float32(len(devIDs))/float32(getGPUMemory())),
+					envGPUMemoryFraction:   fmt.Sprintf("%.2f", float32(reqGPU)/float32(len(devIDs))/float32(getGPUMemory())),
 				},
 			}
 			responses.ContainerResponses = append(responses.ContainerResponses, &response)

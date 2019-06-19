@@ -15,7 +15,7 @@ const (
 	//0.7 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
 	AvailableNvidiaMemoryRatio = 0.7
 	//used by tensorflow to control memory usage
-	GPU_MEMORY_FRACTION = "0.3"
+	envGPUMemoryFraction = "GPU_MEMORY_FRACTION"
 
 	OptimisticLockErrorMsg = "the object has been modified; please apply your changes to the latest version and try again"
 
