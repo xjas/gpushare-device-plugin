@@ -121,6 +121,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 		// 1. Create container requests
 		for _, req := range reqs.ContainerRequests {
 			reqGPU := uint(len(req.DevicesIDs))
+			fraction := float32(reqGPU)/float32(len(devIDs))/float32(getGPUMemory())*AvailableNvidiaMemoryRatio
 			response := pluginapi.ContainerAllocateResponse{
 				Envs: map[string]string{
 					envNVGPU:               candidateDevIDs,
@@ -131,7 +132,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 					// Todo: we may try to allocate different gpu mem to multi containers, because the response contains all the pods.
 					EnvResourceByContainer: fmt.Sprintf("%d", reqGPU),
 					EnvResourceByDev:       fmt.Sprintf("%d", getGPUMemory()),
-					envGPUMemoryFraction:   fmt.Sprintf("%.2f", float32(reqGPU)/float32(len(devIDs))/float32(getGPUMemory())),
+					envGPUMemoryFraction:   fmt.Sprintf("%.2f", fraction),
 				},
 			}
 			responses.ContainerResponses = append(responses.ContainerResponses, &response)
