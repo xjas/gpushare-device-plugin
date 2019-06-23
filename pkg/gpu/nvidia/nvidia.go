@@ -77,7 +77,7 @@ func getDevices() ([]*pluginapi.Device, map[string]uint) {
 		// FIXME: warp the nvidia lib to replace GPU_MEMORY_FRACTION
 		realGPUMem = uint(*d.Memory)
 		if getGPUMemory() == uint(0) {
-			setGPUMemory(uint(float64(*d.Memory) * AvailableNvidiaMemoryRatio))
+			setGPUMemory(uint(*d.Memory))
 		}
 		for j := uint(0); j < getGPUMemory(); j++ {
 			fakeID := generateFakeDeviceID(d.UUID, j)
