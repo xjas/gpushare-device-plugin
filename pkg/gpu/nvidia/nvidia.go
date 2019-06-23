@@ -15,6 +15,7 @@ import (
 var (
 	gpuMemory uint
 	metric    MemoryUnit
+	realGPUMem   uint
 )
 
 func check(err error) {
@@ -40,6 +41,9 @@ func setGPUMemory(raw uint) {
 	log.Infof("set gpu memory: %d", gpuMemory)
 }
 
+func getRealGPUMemory() uint {
+	return realGPUMem
+}
 func getGPUMemory() uint {
 	return gpuMemory
 }
@@ -67,6 +71,11 @@ func getDevices() ([]*pluginapi.Device, map[string]uint) {
 		realDevNames[d.UUID] = id
 		// var KiB uint64 = 1024
 		log.Infof("# device Memory: %d", uint(*d.Memory))
+		// To make the calculation of FRACTION more accurate.
+		// GPU_MEMORY_FRACTION is a global env for all gpus in a pod.
+		// so this is not the best way.
+		// FIXME: warp the nvidia lib to replace GPU_MEMORY_FRACTION
+		realGPUMem = uint(*d.Memory)
 		if getGPUMemory() == uint(0) {
 			setGPUMemory(uint(float64(*d.Memory) * AvailableNvidiaMemoryRatio))
 		}

@@ -121,7 +121,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context,
 		// 1. Create container requests
 		for _, req := range reqs.ContainerRequests {
 			reqGPU := uint(len(req.DevicesIDs))
-			fraction := float32(reqGPU)/float32(len(devIDs))/float32(getGPUMemory())*AvailableNvidiaMemoryRatio
+			fraction := float32(reqGPU)/float32(len(devIDs))/float32(getRealGPUMemory())
 			response := pluginapi.ContainerAllocateResponse{
 				Envs: map[string]string{
 					envNVGPU:               candidateDevIDs,
