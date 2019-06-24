@@ -13,7 +13,8 @@ const (
 	serverSock    = pluginapi.DevicePluginPath + "transwarp-gpu-share.sock"
 
 	//0.7 is because tensorflow control gpu memory is not accurate, it is recommended to multiply by 0.7 to ensure that the upper limit is not exceeded.
-	AvailableNvidiaMemoryRatio = 0.7
+	// AvailableNvidiaMemoryRatio = 0.7
+
 	//used by tensorflow to control memory usage
 	envGPUMemoryFraction = "GPU_MEMORY_FRACTION"
 

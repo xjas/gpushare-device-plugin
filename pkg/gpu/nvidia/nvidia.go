@@ -16,6 +16,7 @@ var (
 	gpuMemory uint
 	metric    MemoryUnit
 	realGPUMem   uint
+	availableGPURatio float32
 )
 
 func check(err error) {
